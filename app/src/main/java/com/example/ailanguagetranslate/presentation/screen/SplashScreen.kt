@@ -88,7 +88,7 @@ fun SplashScreen(onNavigateToList: () -> Unit) {
                 progress = { progress },
                 modifier = Modifier
                     .width(250.dp)
-                    .height(40.dp),
+                    .height(20.dp),
             )
         }
     }
