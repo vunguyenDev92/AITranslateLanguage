@@ -70,4 +70,7 @@ dependencies {
 
     // animation lottie
     implementation(libs.lottie.compose)
+
+    // admob
+    implementation(libs.play.services.ads)
 }
