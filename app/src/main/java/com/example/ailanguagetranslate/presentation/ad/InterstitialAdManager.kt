@@ -2,6 +2,7 @@ package com.example.ailanguagetranslate.presentation.ad
 
 import android.app.Activity
 import android.util.Log
+import com.example.ailanguagetranslate.LanguageApplication.Companion.INTER_AD_UNIT_ID
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -9,7 +10,6 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
-private const val INTER_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
 object InterstitialAdManager {
     var interstitialAd: InterstitialAd? = null
     private var adIsLoading = false
