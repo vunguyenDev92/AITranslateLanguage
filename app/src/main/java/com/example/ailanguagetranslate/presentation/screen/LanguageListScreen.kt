@@ -15,13 +15,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -45,18 +47,30 @@ fun LanguageListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Language") },
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Language",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black,
+                    )
+                },
                 actions = {
-                    IconButton(onClick = {
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Confirm",
-                            tint = Color(0xFF3B5AFB),
-                        )
+                    if (state.selectedLanguage != null) {
+                        IconButton(onClick = {
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = "Confirm",
+                                tint = Color(0xFF3B5AFB),
+                            )
+                        }
                     }
                 },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFFF0F1F8),
+                ),
             )
         },
     ) { innerPadding ->
@@ -64,7 +78,7 @@ fun LanguageListScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(Color(0xFFF7F8FA)),
+                .background(Color(0xFFF0F1F8)),
         ) {
             if (state.isLoading) {
                 CircularProgressIndicator(Modifier.align(Alignment.Center))
@@ -104,21 +118,21 @@ fun LanguageItem(
             )
             .background(Color.White, RoundedCornerShape(12.dp))
             .clickable { onClick() }
-            .padding(vertical = 14.dp, horizontal = 16.dp),
+            .padding(vertical = 10.dp, horizontal = 16.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
                 model = language.flagUrl,
                 contentDescription = language.name,
                 modifier = Modifier
-                    .size(30.dp)
+                    .size(40.dp)
                     .padding(end = 16.dp),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
             )
             Text(
                 text = language.name,
                 fontSize = 16.sp,
-                color = Color.Black,
+                color = Color(0xFF1F364D),
             )
         }
     }
