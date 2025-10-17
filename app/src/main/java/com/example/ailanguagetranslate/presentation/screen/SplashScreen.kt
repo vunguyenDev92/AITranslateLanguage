@@ -1,5 +1,7 @@
 package com.example.ailanguagetranslate.presentation.screen
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,23 +19,29 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.ailanguagetranslate.R
+import com.example.ailanguagetranslate.presentation.ad.InterstitialAdManager
 import kotlinx.coroutines.delay
 
+@SuppressLint("ContextCastToActivity")
 @Composable
 fun SplashScreen(onNavigateToList: () -> Unit) {
+    val activity = LocalContext.current as Activity
     LaunchedEffect(Unit) {
-        delay(2000)
-        onNavigateToList()
+        delay(3000)
+        // show inter ad
+        InterstitialAdManager.showInterstitial(activity) {
+            onNavigateToList()
+        }
     }
 
     Box(
@@ -80,7 +88,7 @@ fun SplashScreen(onNavigateToList: () -> Unit) {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_translate))
             val progress by animateLottieCompositionAsState(
                 composition = composition,
-                iterations = LottieConstants.IterateForever,
+                iterations = 1,
             )
 
             LottieAnimation(
