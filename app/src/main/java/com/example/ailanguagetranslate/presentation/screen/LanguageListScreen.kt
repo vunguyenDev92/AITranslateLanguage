@@ -5,11 +5,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.ailanguagetranslate.domain.model.Language
-import com.example.ailanguagetranslate.presentation.ad.BannerAdComposable
 import com.example.ailanguagetranslate.presentation.ad.NativeAdComposable
 import com.example.ailanguagetranslate.presentation.viewmodel.LanguageViewModel
 
@@ -64,6 +60,7 @@ fun LanguageListScreen(
                 actions = {
                     if (state.selectedLanguage != null) {
                         IconButton(onClick = {
+                            onNavigate("onboarding_one")
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Check,
@@ -79,19 +76,13 @@ fun LanguageListScreen(
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = Color(0xFFFAFBFD),
-                tonalElevation = 0.dp,
-                modifier = Modifier.height(261.dp),
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFFAFBFD)),
+                contentAlignment = Alignment.Center,
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    NativeAdComposable()
-                }
+                NativeAdComposable()
             }
         },
     ) { innerPadding ->
@@ -110,17 +101,15 @@ fun LanguageListScreen(
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
-                        contentPadding = PaddingValues(bottom = 180.dp),
                     ) {
                         items(state.languages) { language ->
                             LanguageItem(
                                 language = language,
                                 isSelected = state.selectedLanguage == language,
-                                onClick = { viewModel.selectLanguage(language) },
+                                onClick = {
+                                    viewModel.selectLanguage(language)
+                                },
                             )
-                        }
-                        item {
-                            BannerAdComposable()
                         }
                     }
                 }

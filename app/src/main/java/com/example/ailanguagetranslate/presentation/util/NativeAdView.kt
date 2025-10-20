@@ -20,10 +20,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,12 +30,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -343,24 +344,21 @@ fun NativeAdAttribution(text: String = "Ad", modifier: Modifier = Modifier) {
 fun NativeAdButton(
     text: String,
     modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
 ) {
-    Button(
-        onClick = { onClick?.invoke() },
+    Box(
         modifier = modifier
-            .height(44.dp)
-            .clip(RoundedCornerShape(12.dp)),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.White,
-            contentColor = Color(0xFF3B5AFB),
-        ),
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFF3B5AFB))
+            .padding(vertical = 12.dp, horizontal = 16.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
+            color = Color.White,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
         )
     }
 }

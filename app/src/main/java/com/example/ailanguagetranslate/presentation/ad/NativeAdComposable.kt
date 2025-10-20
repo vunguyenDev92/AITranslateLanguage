@@ -2,16 +2,17 @@ package com.example.ailanguagetranslate.presentation.ad
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,11 +24,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
+import coil.compose.AsyncImage
 import com.example.ailanguagetranslate.LanguageApplication.Companion.NATIVE_AD_UNIT_ID
 import com.example.ailanguagetranslate.LanguageApplication.Companion.TAG
 import com.example.ailanguagetranslate.presentation.util.NativeAdBodyView
@@ -53,20 +54,16 @@ fun NativeAdComposable() {
     var isDisposed by remember { mutableStateOf(false) }
 
     DisposableEffect(Unit) {
-        // Load the native ad when we launch this screen
         loadNativeAd(
             context = context,
             onAdLoaded = { ad ->
-                // Handle the native ad being loaded.
                 if (!isDisposed) {
                     nativeAd = ad
                 } else {
-                    // Destroy the native ad if loaded after the screen is disposed.
                     ad.destroy()
                 }
             },
         )
-        // Destroy the native ad to prevent memory leaks when we dispose of this screen.
         onDispose {
             isDisposed = true
             nativeAd?.destroy()
@@ -74,7 +71,6 @@ fun NativeAdComposable() {
         }
     }
 
-    // Display the native ad view with a user defined template.
     nativeAd?.let { adValue -> DisplayNativeAdView(adValue) }
 }
 
@@ -115,8 +111,10 @@ fun DisplayNativeAdView(nativeAd: NativeAd) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(260.dp)
-            .background(Color(0xFFFAFBFD)),
+            .wrapContentHeight()
+            .heightIn(min = 120.dp, max = 350.dp)
+            .background(Color(0xFFFAFBFD))
+            .padding(8.dp),
     ) {
         NativeAdView(nativeAd) {
             Column(
@@ -125,68 +123,69 @@ fun DisplayNativeAdView(nativeAd: NativeAd) {
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
                 ) {
                     nativeAd.icon?.let { icon ->
                         NativeAdIconView(
                             modifier = Modifier
-                                .size(40.dp)
-                                .padding(end = 8.dp),
+                                .size(48.dp)
+                                .padding(end = 12.dp),
                         ) {
-                            icon.drawable?.toBitmap()?.let { bitmap ->
-                                Image(bitmap = bitmap.asImageBitmap(), contentDescription = "Ad Icon")
-                            }
+                            AsyncImage(
+                                model = icon.drawable ?: icon.uri,
+                                contentDescription = "Ad Icon",
+                                modifier = Modifier.fillMaxSize(),
+                            )
                         }
                     }
 
                     Column(modifier = Modifier.weight(1f)) {
                         nativeAd.headline?.let {
-                            NativeAdHeadlineView {
+                            NativeAdHeadlineView(modifier = Modifier.fillMaxWidth()) {
                                 Text(
                                     text = it,
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = Color.Black,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
                                 )
                             }
                         }
-
                         nativeAd.body?.let {
-                            NativeAdBodyView {
+                            NativeAdBodyView(modifier = Modifier.fillMaxWidth()) {
                                 Text(
                                     text = it,
                                     style = MaterialTheme.typography.bodySmall,
                                     color = Color.Gray,
-                                    maxLines = 1,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
                                 )
                             }
                         }
                     }
                 }
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                ) {
+
+                if (nativeAd.mediaContent != null) {
                     NativeAdMediaView(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
-                            .heightIn(min = 120.dp, max = 200.dp),
+                            .aspectRatio(16f / 9f),
                     )
+                }
 
-                    nativeAd.callToAction?.let { callToAction ->
-                        NativeAdCallToActionView(
-                            modifier = Modifier
-                                .height(40.dp)
-                                .weight(0.6f),
-                        ) {
-                            NativeAdButton(
-                                text = callToAction,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                            )
-                        }
+                nativeAd.callToAction?.let { callToAction ->
+                    NativeAdCallToActionView(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                    ) {
+                        NativeAdButton(
+                            text = callToAction,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
                     }
                 }
             }
