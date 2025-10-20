@@ -2,18 +2,21 @@ package com.example.ailanguagetranslate.presentation.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ailanguagetranslate.LanguageApplication
 import com.example.ailanguagetranslate.presentation.screen.LanguageListScreen
+import com.example.ailanguagetranslate.presentation.screen.OnboardingOneScreen
 import com.example.ailanguagetranslate.presentation.screen.SplashScreen
 import com.example.ailanguagetranslate.presentation.viewmodel.LanguageViewModel
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object LanguageList : Screen("language_list")
+    object OnboardingOne : Screen("onboarding_one")
 }
 
 @SuppressLint("ViewModelConstructorInComposable")
@@ -37,9 +40,17 @@ fun AppNavGraph(navController: NavHostController) {
         }
 
         composable(Screen.LanguageList.route) {
-            val viewModel = LanguageViewModel(appContainer.getListLanguageUseCase)
+            val viewModel = remember {
+                LanguageViewModel(appContainer.getListLanguageUseCase)
+            }
             LanguageListScreen(
                 viewModel = viewModel,
+                onNavigate = { route -> navController.navigate(route) },
+            )
+        }
+
+        composable(Screen.OnboardingOne.route) {
+            OnboardingOneScreen(
                 onNavigate = { route -> navController.navigate(route) },
             )
         }

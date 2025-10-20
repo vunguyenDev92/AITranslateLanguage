@@ -37,7 +37,7 @@ import kotlinx.coroutines.delay
 fun SplashScreen(onNavigateToList: () -> Unit) {
     val activity = LocalContext.current as Activity
     LaunchedEffect(Unit) {
-        delay(3000)
+        delay(4000)
         // show inter ad
         InterstitialAdManager.showInterstitial(activity) {
             onNavigateToList()
