@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.ailanguagetranslate.domain.model.Language
-import com.example.ailanguagetranslate.presentation.ad.NativeAdComposable
 import com.example.ailanguagetranslate.presentation.viewmodel.LanguageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +59,7 @@ fun LanguageListScreen(
                 actions = {
                     if (state.selectedLanguage != null) {
                         IconButton(onClick = {
-                            onNavigate("onboarding_one")
+                            onNavigate("onboarding_pager")
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Check,
@@ -82,7 +81,12 @@ fun LanguageListScreen(
                     .background(Color(0xFFFAFBFD)),
                 contentAlignment = Alignment.Center,
             ) {
-                NativeAdComposable()
+//                NativeAdComposable(
+//                    adUnitId = NATIVE_AD_UNIT_ID,
+//                    adLayout = { nativeAd ->
+//                        StandardNativeAdLayout(nativeAd = nativeAd)
+//                    },
+//                )
             }
         },
     ) { innerPadding ->
