@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ailanguagetranslate.LanguageApplication
 import com.example.ailanguagetranslate.presentation.screen.LanguageListScreen
-import com.example.ailanguagetranslate.presentation.screen.OnboardingOneScreen
+import com.example.ailanguagetranslate.presentation.screen.OnboardingPagerScreen
 import com.example.ailanguagetranslate.presentation.screen.SplashScreen
 import com.example.ailanguagetranslate.presentation.viewmodel.LanguageViewModel
 
@@ -17,6 +17,7 @@ sealed class Screen(val route: String) {
     object Splash : Screen("splash")
     object LanguageList : Screen("language_list")
     object OnboardingOne : Screen("onboarding_one")
+    object OnboardingPager : Screen("onboarding_pager")
 }
 
 @SuppressLint("ViewModelConstructorInComposable")
@@ -49,8 +50,8 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(Screen.OnboardingOne.route) {
-            OnboardingOneScreen(
+        composable(Screen.OnboardingPager.route) {
+            OnboardingPagerScreen(
                 onNavigate = { route -> navController.navigate(route) },
             )
         }
