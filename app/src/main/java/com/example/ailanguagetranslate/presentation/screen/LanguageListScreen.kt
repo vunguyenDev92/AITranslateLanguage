@@ -34,7 +34,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.ailanguagetranslate.LanguageApplication.Companion.NATIVE_AD_UNIT_ID
 import com.example.ailanguagetranslate.domain.model.Language
+import com.example.ailanguagetranslate.presentation.ad.NativeAdComposable
+import com.example.ailanguagetranslate.presentation.ad.StandardNativeAdLayout
 import com.example.ailanguagetranslate.presentation.viewmodel.LanguageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -81,12 +84,12 @@ fun LanguageListScreen(
                     .background(Color(0xFFFAFBFD)),
                 contentAlignment = Alignment.Center,
             ) {
-//                NativeAdComposable(
-//                    adUnitId = NATIVE_AD_UNIT_ID,
-//                    adLayout = { nativeAd ->
-//                        StandardNativeAdLayout(nativeAd = nativeAd)
-//                    },
-//                )
+                NativeAdComposable(
+                    adUnitId = NATIVE_AD_UNIT_ID,
+                    adLayout = { nativeAd ->
+                        StandardNativeAdLayout(nativeAd = nativeAd)
+                    },
+                )
             }
         },
     ) { innerPadding ->
