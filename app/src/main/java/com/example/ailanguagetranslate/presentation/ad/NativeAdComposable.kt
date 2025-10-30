@@ -26,21 +26,28 @@ fun NativeAdComposable(
     var isDisposed by remember { mutableStateOf(false) }
 
     DisposableEffect(adUnitId) {
-        loadNativeAd(
-            context = context,
-            adUnitId = adUnitId,
-            onAdLoaded = { ad ->
-                if (!isDisposed) {
-                    nativeAd = ad
-                } else {
-                    ad.destroy()
-                }
-            },
-        )
+        val preloadedAd = NativeAdManager.getAd()
+        if (preloadedAd != null) {
+            if (!isDisposed) {
+                nativeAd = preloadedAd
+                Log.d(TAG, "Using preloaded native ad")
+            }
+        } else {
+            loadNativeAd(
+                context = context,
+                adUnitId = adUnitId,
+                onAdLoaded = { ad ->
+                    if (!isDisposed) {
+                        nativeAd = ad
+                    } else {
+                        ad.destroy()
+                    }
+                },
+            )
+        }
+
         onDispose {
             isDisposed = true
-            nativeAd?.destroy()
-            nativeAd = null
         }
     }
 
